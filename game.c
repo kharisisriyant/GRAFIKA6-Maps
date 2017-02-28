@@ -32,7 +32,7 @@ struct input_event ev;	//something-something keylogger
 ssize_t n;
 int user_input = -99;
 int keypress = 0;
-titik p0 = {100,350};
+titik p0 = {0,150};
 titik p1 = {520,650};
 titik p2 = {300,650};
 titik p3 = {500,650};
@@ -40,7 +40,7 @@ titik p8 = {600, 650};
 titik p9 = {0,0};
 titik p10 = {760,2};
 titik p11 = {0,600};
-titik p12 = {900,700};
+titik p12 = {900,600};
 
 titik windowPosition = {350,50};
 
@@ -118,10 +118,11 @@ void *preUpdate(){
 	    if (n == (ssize_t)-1) {
 
 	    }
-
+	    int wt = 50; //window transition
 	    // if keystroke is stored on keyboard device reference file
 	    if (ev.type == EV_KEY && ev.value >= 0 && ev.value <= 2){
 	        if(ev.value == 1){ // when it pressed, 0 is released
+	        	printf("----%d----",ev.code);
 	            switch(ev.code){
 	                case 57:
 	                    // Space trigger
@@ -138,6 +139,45 @@ void *preUpdate(){
 	                    // Right arrow trigger
 	                    user_input = 1;
 	                    break;
+
+	                case 30:
+	                	// Case A -> window goes left
+	                	if(windowPosition.x -wt >= 0){
+	                		windowPosition.x -= wt;
+	                	} else {
+	                		windowPosition.x = 0;
+	                	}
+	                	break;
+
+	                case 31:
+	                	// Case S -> window goes down
+	                	if(windowPosition.y + 200 + wt < GLOBAL_LAYAR_Y){
+	                		windowPosition.y+= wt;
+	                	}
+	                	else {
+	                		windowPosition.y = 500;
+	                	}
+	                	break;
+
+	                case 32:
+	                	// Case D -> window goes right
+	                	if(windowPosition.x + 300 + wt < GLOBAL_LAYAR_X){
+	                		windowPosition.x += wt;
+	                	}
+	                	else {
+	                		windowPosition.x = 700;
+	                	}
+	                	break;
+
+	                case 17:
+	                	// Case W -> window goes up
+	                	if(windowPosition.y -wt >= 0){
+	                		windowPosition.y-=wt;
+	                	}
+	                	else {
+	                		windowPosition.y = 0;
+	                	}
+	                	break;
 
 	                default:
 	                    break;
@@ -175,6 +215,7 @@ void updatePosisi(){
 	}
 
 	refreshBuffer(pl0,pl1);
+	refreshBuffer_window(pw0,pw1);
 	gambarObjek();
 	gambarTembakan();
 	jalanObjek();
@@ -198,4 +239,5 @@ void postUpdate(){
 	}
 
 	loadBuffer();
+	loadBuffer_window();
 }

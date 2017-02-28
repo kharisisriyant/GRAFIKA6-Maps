@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <math.h>
 
+titik objekWindow[100];
+int titikObjekWindow = 0;
+
 warna cRed ={255,25,25,255};
 warna cGreen = {25,255,25,255};
 warna cBlue = {25,25,255,255};
@@ -163,10 +166,10 @@ void loadBuffer(){
 void bufferDrawPlane(titik* p, warna c, int sisi){
 	int i= 0;
 
+  titikObjekWindow = 0;
 	for (i = 0; i < sisi-1; i++) {
 		bufferDrawLine(p[i], p[i+1], c);
 	}
-
 
 	bufferDrawLine(p[i], p[0], c);
 }
@@ -249,7 +252,7 @@ int is_color(titik p, warna c) {
 
 void bufferDrawPlaneSolid(titik* p, warna c, warna bound_c, int sisi) {
 	int i, x_mid = 0, y_mid = 0;
-	titik flare_point;
+	titik flare_point, window_point;
 	bufferDrawPlane(p, bound_c, sisi);
 	for (i = 0; i < sisi; i++) {
 		x_mid += p[i].x;
@@ -258,6 +261,17 @@ void bufferDrawPlaneSolid(titik* p, warna c, warna bound_c, int sisi) {
 	flare_point.x = x_mid / sisi;
 	flare_point.y = y_mid / sisi;
 	fill(flare_point, c, bound_c);
+
+  if (titikObjekWindow > 0) {
+    x_mid = 0; y_mid = 0;
+    for (i = 0; i < titikObjekWindow; i++) {
+      x_mid += objekWindow[i].x;
+  		y_mid += objekWindow[i].y;
+    }
+    window_point.x = x_mid / titikObjekWindow;
+  	window_point.y = y_mid / titikObjekWindow;
+    fill_window(window_point, c, bound_c);
+  }
 }
 
 void fill(titik p, warna c, warna bound_c) {
@@ -299,7 +313,6 @@ void drawTank(int xof, int yof) {
     bufferDrawPlaneSolid(tankGun, cRed, cRed, 4);
 }
 
-
 void bufferDrawLine(titik p0, titik p1, warna c) {
     int x0 = p0.x; int x1 = p1.x; int y0 = p0.y; int y1 = p1.y;
     int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
@@ -313,6 +326,26 @@ void bufferDrawLine(titik p0, titik p1, warna c) {
       e2 = err;
       if (e2 >-dx) { err -= dy; x0 += sx; }
       if (e2 < dy) { err += dx; y0 += sy; }
+    }
+
+    if (isOnWindow(p0,p1)) {
+        if (DotZone(p0) && DotZone(p1)) { // Dua-duanya di luar
+          objekWindow[titikObjekWindow++] = move_to_window(get_intersection(p0, p1));
+          objekWindow[titikObjekWindow++] = move_to_window(get_intersection(p1, p0));
+        } else if (DotZone(p0)) {
+          objekWindow[titikObjekWindow++] = move_to_window(get_intersection(p0, p1));
+        } else if (DotZone(p1)) {
+          objekWindow[titikObjekWindow++] = move_to_window(p0);
+          objekWindow[titikObjekWindow++] = move_to_window(get_intersection(p0, p1));
+        } else {
+          objekWindow[titikObjekWindow++] = move_to_window(p0);
+        }
+        titik p0temp, p1temp;
+        p0temp.x = p0.x - windowPosition.x;
+        p0temp.y = p0.y - windowPosition.y;
+        p1temp.x = p1.x - windowPosition.x;
+        p1temp.y = p1.y - windowPosition.y;
+        bufferDrawLine_window(p0temp,p1temp,c);
     }
 }
 
@@ -335,7 +368,7 @@ void drawWindow(titik windowPosition){
     posWindow[2].x = windowPosition.x+299;
     posWindow[2].y = windowPosition.y+199;
     posWindow[3].x = windowPosition.x;
-    posWindow[3].y = windowPosition.y+199;    
+    posWindow[3].y = windowPosition.y+199;
 
     bufferDrawPlane(posWindow,cWhite,4);
 }

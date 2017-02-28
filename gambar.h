@@ -5,7 +5,7 @@
 // variabel statik global buffer_*
 // tipe data titik, warna
 #include "glob_var_type.h"
-
+#include "gambarwindow.h"
 
 unsigned char buffer_r[GLOBAL_LAYAR_X][GLOBAL_LAYAR_Y];
 unsigned char buffer_g[GLOBAL_LAYAR_X][GLOBAL_LAYAR_Y];
@@ -33,13 +33,13 @@ void loadBuffer();
 
 //membuat bidang yang menyambungkan titik p[0] ke p[1], p[1] ke p[2], ...., p[n] ke p[0]
 //dengan warna solid
-void bufferDrawPlaneSolid(titik* p, warna c, warna bound_c, int sisi);	
-	                                                					
+void bufferDrawPlaneSolid(titik* p, warna c, warna bound_c, int sisi);
+
 //membuat gambar dengan origin sebagai posisi
-void bufferDrawPlaneSolidCitra(titik* citra, titik origin, warna fill, warna bound, int sisi); 
+void bufferDrawPlaneSolidCitra(titik* citra, titik origin, warna fill, warna bound, int sisi);
 
 //melakukan pewarnaan flood denganp sebagai titik api
-void fill(titik p, warna c, warna bound_c);	
+void fill(titik p, warna c, warna bound_c);
 
 
 //================================================
