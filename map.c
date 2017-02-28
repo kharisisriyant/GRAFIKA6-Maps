@@ -16,6 +16,11 @@ void drawObjects();		//menggambar tembakan dan objekTabrak ke buffer
 void *preUpdate();		//(1)cek inputuser
 void updatePosisi();	//(1)ubah posisi. (2)spawnObjek, (3)drawBuffer
 void postUpdate();	 	//(1)cek kolisi, (2)loadbuffer ke layar
+void zoomOut();
+void zoomIn();
+
+int windowSideLength= 300;
+int zoomDiff=5;
 
 titik windowPosition = {350,50};
 plane building, road, tree;
@@ -23,7 +28,7 @@ plane building, road, tree;
 titik pl0 = {0,0};
 titik pl1 = {999,699};
 titik pw0 = {0,0};
-titik pw1 = {299,199};
+titik pw1 = {299,299};
 
 pthread_t thread0; 		//thread input capture
 int fd; 				//something-something keylogger
@@ -58,20 +63,21 @@ int main(){
 //**setup-building******************************************************************************
 
 	//read file with parser
-	int nbuilding = 10;
-	plane* building = readFile("building.txt", &nbuilding);
+	int nbuilding;
+	plane* building = readFile("building.txt",&nbuilding);
+
 
 //**setup-jalan******************************************************************************
 	int njalan;
 	line* roads = readFileRoad("jalan.txt", &njalan);
 
 	//read file with parser
-	int npohon;
-	plane* pohon = readFile("tree.txt", &npohon);
-	npohon = pohon[0].n;
+	int ntree;
+	plane* tree = readFile("tree.txt", &ntree);
+	ntree = tree[0].n;
 	titik p0 = {0, 0};
 	for (int xx = 0; xx < 101; xx++) {
-		pohon[0].point[xx] = scaleDot(p0, pohon[0].point[xx], 1.37);
+		tree[0].point[xx] = scaleDot(p0, tree[0].point[xx], 1.37);
 	}
 
 //**setup-pohon******************************************************************************
@@ -79,6 +85,7 @@ int main(){
 	//read file with parser
 
 	warna c = {255,255,255,255};
+	warna cGreen = {255,255,255,0};
 	warna c0 = {255,255,255,255};
 	warna red = {255, 1, 1, 255};
 	warna green = {1, 255, 1, 255};
@@ -94,8 +101,8 @@ int main(){
 	printf("\n");
 	refreshBuffer(pl0,pl1);
 	drawBuildings(building,nbuilding,c);
-	drawTrees(pohon,npohon,green);
 	drawRoads(roads, njalan, red);
+	drawTrees(tree,ntree,cGreen);
 
 	loadBuffer();
 
@@ -108,6 +115,13 @@ int main(){
 	{
 		//preUpdate();
 //		updatePosisi();
+
+		refreshBuffer(pl0,pl1);
+		refreshBuffer_window(pw0,pw1);
+		drawBuildings(building,nbuilding,c);
+		drawRoads(roads, njalan, red);
+		drawTrees(tree,ntree,cGreen);
+		drawWindow(windowPosition);
 		postUpdate();
 		usleep(17);
 	}
@@ -141,13 +155,15 @@ void *preUpdate(){
 	                    break;
 
 	                case 105:
-	                    // Left arrow trigger
+	                    // Left arrow trigger //zoom out
 	                    user_input = -1;
+	                    zoomOut();
 	                    break;
 
 	                case 106:
-	                    // Right arrow trigger
+	                    // Right arrow trigger //zoom in
 	                    user_input = 1;
+	                    zoomIn();
 	                    break;
 
 	                case 30:
@@ -189,6 +205,37 @@ void *preUpdate(){
 	                	}
 	                	break;
 
+
+	                case 36:
+	                	// Case J -> just display building
+	                	if(windowPosition.x + 300 + wt < GLOBAL_LAYAR_X){
+	                		windowPosition.x += wt;
+	                	}
+	                	else {
+	                		windowPosition.x = 700;
+	                	}
+	                	break;
+
+	                case 37:
+	                	// Case K -> just display tree
+	                	if(windowPosition.x + 300 + wt < GLOBAL_LAYAR_X){
+	                		windowPosition.x += wt;
+	                	}
+	                	else {
+	                		windowPosition.x = 700;
+	                	}
+	                	break;
+
+	                case 38:
+	                	// Case L -> just display road
+	                	if(windowPosition.x + 300 + wt < GLOBAL_LAYAR_X){
+	                		windowPosition.x += wt;
+	                	}
+	                	else {
+	                		windowPosition.x = 700;
+	                	}
+	                	break;
+
 	                default:
 	                    break;
 
@@ -221,13 +268,39 @@ void updatePosisi(){
 
 	refreshBuffer(pl0,pl1);
 	refreshBuffer_window(pw0,pw1);
-
-
 	drawWindow(windowPosition);
 }
 
 void postUpdate(){
-
 	loadBuffer();
 	loadBuffer_window();
+}
+
+void zoomOut(){
+	if(windowSideLength >=6){
+		windowSideLength -= zoomDiff;
+	}
+	else {
+		windowSideLength = 1;
+	}
+}
+
+
+void zoomIn(){
+	if(windowSideLength < 700-6){
+		//masih bisa nambah
+		if(windowPosition.x+windowSideLength > GLOBAL_LAYAR_X-6){
+			windowPosition.x -= zoomDiff;
+		}
+		if(windowPosition.y+windowSideLength > GLOBAL_LAYAR_Y-6){
+			windowPosition.y -= zoomDiff;
+		}
+		windowSideLength += zoomDiff;
+
+	}
+	else {
+		windowPosition.x = 0;
+		windowSideLength = 700;
+
+	}
 }

@@ -18,6 +18,8 @@ typedef struct{
 
 extern titik windowPosition;
 
+extern int windowSideLength;
+
 extern unsigned char buffer_r[GLOBAL_LAYAR_X][GLOBAL_LAYAR_Y];
 extern unsigned char buffer_g[GLOBAL_LAYAR_X][GLOBAL_LAYAR_Y];
 extern unsigned char buffer_b[GLOBAL_LAYAR_X][GLOBAL_LAYAR_Y];

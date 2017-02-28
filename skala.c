@@ -25,6 +25,6 @@ titik scaleDot(titik p0, titik p1, float s){
 
 void scaleBanyakDot(titik p0, titik *p1, float s, int banyaktitik){
 	for (int i = 0; i < banyaktitik;i++){
-		scaleDot(p0, p1[i], s);
+		p1[i] = scaleDot(p0, p1[i], s);
 	}
 }
