@@ -37,8 +37,8 @@ while(fscanf(fp, "%s", buff) != EOF)
 			ii=0;
 			//tulis angka banyak titik
 			int n = atoi(&buff[1]);
-			//printf("%d",n);
-			//printf("bangunan\n");
+			printf("%d",n);
+			printf("bangunan\n");
 
 			//inisialisasi array titik
 			bidang[i].n = n;
@@ -69,7 +69,7 @@ while(fscanf(fp, "%s", buff) != EOF)
 
    fclose(fp);
 
-   *total = i;
+   *total = (i+1);
 
    return bidang;
 }

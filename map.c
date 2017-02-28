@@ -57,13 +57,15 @@ int main(){
 //**setup-building******************************************************************************
 
 	//read file with parser
-	plane* building = readFile("building.txt");
 	int nbuilding = 10;
+	plane* building = readFile("building.txt", &nbuilding);
 
 //**setup-jalan******************************************************************************
 
 	//read file with parser
-//	plane* pohon = readFile("tree.txt");
+	int npohon;
+	plane* pohon = readFile("tree.txt", &npohon);
+	npohon = pohon[0].n;
 
 //**setup-pohon******************************************************************************
 
@@ -83,7 +85,7 @@ int main(){
 	printf("\n");
 	refreshBuffer(pl0,pl1);
 	drawBuildings(building,nbuilding,c);
-//	drawTrees(pohon,npohon,c);
+	drawTrees(pohon,npohon,c);
 
 	loadBuffer();
 
