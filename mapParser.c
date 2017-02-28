@@ -29,37 +29,40 @@ plane* readFile(char* path)
 
 while(fscanf(fp, "%s", buff) != EOF)
 {
-	if(buff[0] == '-')
+	if(buff[0] != '\n')
 	{
-		i++;
-		ii=0;
-		//tulis angka banyak titik
-		int n = atoi(&buff[1]);
-		//printf("%d",n);
-		//printf("bangunan\n");
-
-		//inisialisasi array titik
-		bidang[i].n = n;
-		init(&bidang[i]);
-	}
-	else
-	{
-		//baca titik
-		if(readTag == 0)
+		if(buff[0] == '-')
 		{
-			x = atoi(buff);
-			bidang[i].point[ii].x = x;
-			//printf("%d ", x); //titik x dibaca
-			readTag = 1;
+			i++;
+			ii=0;
+			//tulis angka banyak titik
+			int n = atoi(&buff[1]);
+			//printf("%d",n);
+			//printf("bangunan\n");
+
+			//inisialisasi array titik
+			bidang[i].n = n;
+			init(&bidang[i]);
 		}
-		else //readTag == 1
+		else
 		{
-			y = atoi(buff);
-			bidang[i].point[ii].y = y;
-			readTag = 0;		//titik y dibaca
-			//printf("%d\n", y);
+			//baca titik
+			if(readTag == 0)
+			{
+				x = atoi(buff);
+				bidang[i].point[ii].x = x;
+				//printf("%d ", x); //titik x dibaca
+				readTag = 1;
+			}
+			else //readTag == 1
+			{
+				y = atoi(buff);
+				bidang[i].point[ii].y = y;
+				readTag = 0;		//titik y dibaca
+				//printf("%d\n", y);
 
-			ii++;
+				ii++;
+			}
 		}
 	}
 }
