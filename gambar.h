@@ -67,6 +67,6 @@ void drawBuildings(plane* bidang, int size, warna c);
 
 void drawTrees(plane* bidang, int size, warna c);
 
-void drawRoads(plane* bidang, int size, warna c);
+void drawRoads(line* lines, int size, warna c);
 
 #endif //GAMBAR_H

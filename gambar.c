@@ -374,6 +374,7 @@ void drawWindow(titik windowPosition){
     posWindow[3].x = windowPosition.x;
     posWindow[3].y = windowPosition.y+windowSideLength;
 
+
     bufferDrawPlane(posWindow,cWhite,4);
     
 }
@@ -406,6 +407,9 @@ void drawTrees(plane* bidang, int size, warna c){
 }
 
 
-void drawRoads(plane* bidang, int size, warna c){
-
+void drawRoads(line* lines, int size, warna c){
+    int i;
+    for (i = 0; i < size; i++) {
+        bufferDrawLine(lines[i].p1, lines[i].p2, c);
+    }
 }

@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include "glob_var_type.h"
 
+typedef struct {
+	titik p1;
+	titik p2;
+} line;
 
 typedef struct{
 	int n; //banyak titik
@@ -14,5 +18,7 @@ typedef struct{
 void init(plane* bidang);
 
 plane* readFile(char* path, int* total);
+
+line* readFileRoad(char *path, int *total);
 
 #endif

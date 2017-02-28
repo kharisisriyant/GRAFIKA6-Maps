@@ -2,6 +2,7 @@
 #include "tabrakan.h"
 #include "gambarwindow.h"
 #include "mapParser.h"
+#include "skala.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -21,6 +22,10 @@ void zoomIn();
 int windowSideLength= 300;
 int zoomDiff=5;
 
+int isBuildingDisplayed = 1;
+int isTreeDisplayed = 1;
+int isRoadDisplayed = 1;
+
 titik windowPosition = {350,50};
 plane building, road, tree;
 
@@ -37,9 +42,6 @@ int user_input = -99;
 int keypress = 0;
 
 int main(){
-	int isBuildingDisplayed = 1;
-	int isTreeDisplayed = 1;
-	int isRoadDisplayed = 1;
 
 //**setup-pendengar-keyboard********************************************************************
 	// Input keyboard device file
@@ -64,14 +66,20 @@ int main(){
 	//read file with parser
 	int nbuilding;
 	plane* building = readFile("building.txt",&nbuilding);
-	
+
 
 //**setup-jalan******************************************************************************
+	int njalan;
+	line* roads = readFileRoad("jalan.txt", &njalan);
 
 	//read file with parser
 	int ntree;
 	plane* tree = readFile("tree.txt", &ntree);
 	ntree = tree[0].n;
+	titik p0 = {0, 0};
+	for (int xx = 0; xx < 101; xx++) {
+		tree[0].point[xx] = scaleDot(p0, tree[0].point[xx], 1.37);
+	}
 
 //**setup-pohon******************************************************************************
 
@@ -82,7 +90,9 @@ int main(){
 	warna cWhite = {255,255,255,255};
 
 	warna c0 = {255,255,255,255};
-	c0.r += 30;
+	warna red = {255, 1, 1, 255};
+	warna green = {1, 255, 1, 255};
+	c0.r += 30;;
     c0.g += 30;
     c0.b += 30;
 /*
@@ -94,6 +104,7 @@ int main(){
 	printf("\n");
 	refreshBuffer(pl0,pl1);
 	drawBuildings(building,nbuilding,cWhite);
+	drawRoads(roads, njalan, red);
 	drawTrees(tree,ntree,cGreen);
 
 	loadBuffer();
@@ -110,8 +121,15 @@ int main(){
 
 		refreshBuffer(pl0,pl1);
 		refreshBuffer_window(pw0,pw1);
-		drawBuildings(building,nbuilding,cWhite);
-		drawTrees(tree,ntree,cGreen);
+		if(isBuildingDisplayed){
+			drawBuildings(building,nbuilding,cWhite);
+		}
+		if(isRoadDisplayed){
+			drawRoads(roads, njalan, red);
+		}
+		if(isTreeDisplayed){
+			drawTrees(tree,ntree,cGreen);
+		}
 		drawWindow(windowPosition);
 
 		postUpdate();
@@ -196,18 +214,21 @@ void *preUpdate(){
 	                		windowPosition.y = 0;
 	                	}
 	                	break;
-	
+
 
 	                case 36:
 	                	// Case J -> just display building
+	                	isBuildingDisplayed = !isBuildingDisplayed;
 	                	break;
 
 	                case 37:
 	                	// Case K -> just display tree
+	                	isTreeDisplayed = !isTreeDisplayed;
 	                	break;
 
 	                case 38:
 	                	// Case L -> just display road
+	                	isRoadDisplayed = !isRoadDisplayed;
 	                	break;
 
 	                default:

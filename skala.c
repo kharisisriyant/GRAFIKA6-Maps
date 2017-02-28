@@ -19,9 +19,7 @@ titik scaleDot(titik p0, titik p1, float s){
 	else {
 		output.y = ((int)(((float)p0.y) + ((float)jaraky * s)));
 	}
-	
-	
-	
+
 	return output;
 }
 
