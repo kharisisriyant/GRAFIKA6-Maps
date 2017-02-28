@@ -2,7 +2,8 @@
 
 int main()
 {
-	plane* bidang = readFile("building.txt");
+	int total;
+	plane* bidang = readFile("building.txt", &total);
 
 
 	printf("========================================================\n");
@@ -15,6 +16,8 @@ int main()
 			printf("%d]\n", bidang[i].point[ii].y);
 		}
 	}
+
+	printf("total %d\n", total);
 
 	return 0;
 }

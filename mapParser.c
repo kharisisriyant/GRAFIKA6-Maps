@@ -12,7 +12,7 @@ void init(plane* bidang)
 	}
 }
 
-plane* readFile(char* path)
+plane* readFile(char* path, int* total)
 {
    FILE *fp;
    char buff[255];
@@ -68,6 +68,8 @@ while(fscanf(fp, "%s", buff) != EOF)
 }
 
    fclose(fp);
+
+   *total = i;
 
    return bidang;
 }
