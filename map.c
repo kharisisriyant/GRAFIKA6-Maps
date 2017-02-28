@@ -246,7 +246,6 @@ void updatePosisi(){
 }
 
 void postUpdate(){
-
 	loadBuffer();
 	loadBuffer_window();
 }

@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <math.h>
 
-titik objekWindow[100];
+titik objekWindow[500];
 int titikObjekWindow = 0;
 
 warna cRed ={255,25,25,255};
@@ -327,9 +327,8 @@ void bufferDrawLine(titik p0, titik p1, warna c) {
       if (e2 >-dx) { err -= dy; x0 += sx; }
       if (e2 < dy) { err += dx; y0 += sy; }
     }
-
     if (isOnWindow(p0,p1)) {
-        if (DotZone(p0) && DotZone(p1)) { // Dua-duanya di luar
+        if (DotZone(p0) || DotZone(p1)) { // Dua-duanya di luar
           objekWindow[titikObjekWindow++] = move_to_window(get_intersection(p0, p1));
           objekWindow[titikObjekWindow++] = move_to_window(get_intersection(p1, p0));
         } else if (DotZone(p0)) {
@@ -340,6 +339,7 @@ void bufferDrawLine(titik p0, titik p1, warna c) {
         } else {
           objekWindow[titikObjekWindow++] = move_to_window(p0);
         }
+
         titik p0temp, p1temp;
         p0temp.x = p0.x - windowPosition.x;
         p0temp.y = p0.y - windowPosition.y;
@@ -375,12 +375,13 @@ void drawWindow(titik windowPosition){
     posWindow[3].y = windowPosition.y+windowSideLength;
 
     bufferDrawPlane(posWindow,cWhite,4);
+    
 }
 
 //menggambar bidang-bidang yang banyak
 void drawBuildings(plane* bidang, int size, warna c){
     for(int i=0; i<size; i++){
-        int j;
+        int j;;
         for( j=0; j<bidang[i].n-1; j++){
             bufferDrawLine(bidang[i].point[j], bidang[i].point[j+1], c);
         }

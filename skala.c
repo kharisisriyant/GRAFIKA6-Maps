@@ -14,10 +14,10 @@ titik scaleDot(titik p0, titik p1, float s){
 		output.x = ((int)(((float)p0.x) + ((float)jarakx * s)));
 	}
 	if (p1.y < p0.y){
-		output.y = ((int)(((float)p0.x) - ((float)jarakx * s)));
+		output.y = ((int)(((float)p0.y) - ((float)jaraky * s)));
 	}
 	else {
-		output.y = ((int)(((float)p0.x) + ((float)jarakx * s)));
+		output.y = ((int)(((float)p0.y) + ((float)jaraky * s)));
 	}
 	
 	
@@ -27,7 +27,7 @@ titik scaleDot(titik p0, titik p1, float s){
 
 void scaleBanyakDot(titik p0, titik *p1, float s, int banyaktitik){
 	for (int i = 0; i < banyaktitik;i++){
-		scaleDot(p0, p1[i], s);
+		p1[i] = scaleDot(p0, p1[i], s);
 	}
 } 
 
