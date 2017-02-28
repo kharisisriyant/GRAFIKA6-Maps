@@ -102,7 +102,7 @@ int main(){
 	refreshBuffer(pl0,pl1);
 	drawBuildings(building,nbuilding,c);
 	drawRoads(roads, njalan, red);
-	drawTrees(tree,ntree,cGreen);
+	drawTrees(tree, ntree, green);
 
 	loadBuffer();
 
@@ -120,7 +120,7 @@ int main(){
 		refreshBuffer_window(pw0,pw1);
 		drawBuildings(building,nbuilding,c);
 		drawRoads(roads, njalan, red);
-		drawTrees(tree,ntree,cGreen);
+		drawTrees(tree,ntree,green);
 		drawWindow(windowPosition);
 		postUpdate();
 		usleep(17);
