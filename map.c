@@ -105,7 +105,7 @@ int main(){
 	refreshBuffer(pl0,pl1);
 	drawBuildings(building,nbuilding,cWhite);
 	drawRoads(roads, njalan, red);
-	drawTrees(tree,ntree,cGreen);
+	drawTrees(tree, ntree, green);
 
 	loadBuffer();
 
