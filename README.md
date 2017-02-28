@@ -1,0 +1,1 @@
+# GRAFIKA5a-Cropping
