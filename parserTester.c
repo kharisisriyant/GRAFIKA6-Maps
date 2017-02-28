@@ -3,7 +3,7 @@
 int main()
 {
 	int total;
-	plane* bidang = readFile("building.txt", &total);
+	plane* bidang = readFile("tree.txt", &total);
 
 
 	printf("========================================================\n");
