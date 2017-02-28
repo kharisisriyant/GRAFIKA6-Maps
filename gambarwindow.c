@@ -310,8 +310,8 @@ int isOnWindow(titik p0, titik p1)
 		int ytop  = windowPosition.y;
 
 
-		int length_x = GLOBAL_WINDOW_X;
-		int length_y = GLOBAL_WINDOW_Y;
+		int length_x = windowSideLength;
+		int length_y = windowSideLength;
 
 		int xright  = windowPosition.x + length_x;
 		int ybottom = windowPosition.y + length_y;
@@ -380,8 +380,8 @@ int DotZone(titik p)
 	int ytop  = windowPosition.y;
 
 
-	int length_x = GLOBAL_WINDOW_X;
-	int length_y = GLOBAL_WINDOW_Y;
+	int length_x = windowSideLength;
+	int length_y = windowSideLength;
 
 	int xright  = windowPosition.x + length_x;
 	int ybottom = windowPosition.y + length_y;

@@ -345,7 +345,11 @@ void bufferDrawLine(titik p0, titik p1, warna c) {
         p0temp.y = p0.y - windowPosition.y;
         p1temp.x = p1.x - windowPosition.x;
         p1temp.y = p1.y - windowPosition.y;
-        bufferDrawLine_window(p0temp,p1temp,c);
+//        bufferDrawLine_window(p0temp,p1temp,c);
+
+        titik p0result = scaleDotInWindow(p0temp);
+        titik p1result = scaleDotInWindow(p1temp);
+        bufferDrawLine_window(p0result,p1result,c);
     }
 }
 

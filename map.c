@@ -27,7 +27,7 @@ plane building, road, tree;
 titik pl0 = {0,0};
 titik pl1 = {999,699};
 titik pw0 = {0,0};
-titik pw1 = {299,199};
+titik pw1 = {299,299};
 
 pthread_t thread0; 		//thread input capture
 int fd; 				//something-something keylogger
@@ -71,13 +71,16 @@ int main(){
 	//read file with parser
 	int ntree;
 	plane* tree = readFile("tree.txt", &ntree);
+	ntree = tree[0].n;
 
 //**setup-pohon******************************************************************************
 
 	//read file with parser
+	warna cRed ={255,25,25,255};
+	warna cGreen = {25,255,25,255};
+	warna cBlue = {25,25,255,255};
+	warna cWhite = {255,255,255,255};
 
-	warna c = {255,255,255,255};
-	warna cGreen = {255,255,255,0};
 	warna c0 = {255,255,255,255};
 	c0.r += 30;
     c0.g += 30;
@@ -90,7 +93,7 @@ int main(){
 
 	printf("\n");
 	refreshBuffer(pl0,pl1);
-	drawBuildings(building,nbuilding,c);
+	drawBuildings(building,nbuilding,cWhite);
 	drawTrees(tree,ntree,cGreen);
 
 	loadBuffer();
@@ -107,9 +110,10 @@ int main(){
 
 		refreshBuffer(pl0,pl1);
 		refreshBuffer_window(pw0,pw1);
-		drawBuildings(building,nbuilding,c);
+		drawBuildings(building,nbuilding,cWhite);
 		drawTrees(tree,ntree,cGreen);
 		drawWindow(windowPosition);
+
 		postUpdate();
 		usleep(17);
 	}
@@ -196,32 +200,14 @@ void *preUpdate(){
 
 	                case 36:
 	                	// Case J -> just display building
-	                	if(windowPosition.x + 300 + wt < GLOBAL_LAYAR_X){
-	                		windowPosition.x += wt;
-	                	}
-	                	else {
-	                		windowPosition.x = 700;
-	                	}
 	                	break;
 
 	                case 37:
 	                	// Case K -> just display tree
-	                	if(windowPosition.x + 300 + wt < GLOBAL_LAYAR_X){
-	                		windowPosition.x += wt;
-	                	}
-	                	else {
-	                		windowPosition.x = 700;
-	                	}
 	                	break;
 
 	                case 38:
 	                	// Case L -> just display road
-	                	if(windowPosition.x + 300 + wt < GLOBAL_LAYAR_X){
-	                		windowPosition.x += wt;
-	                	}
-	                	else {
-	                		windowPosition.x = 700;
-	                	}
 	                	break;
 
 	                default:

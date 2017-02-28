@@ -30,3 +30,15 @@ void scaleBanyakDot(titik p0, titik *p1, float s, int banyaktitik){
 		scaleDot(p0, p1[i], s);
 	}
 } 
+
+titik scaleDotInWindow(titik p){
+	titik pusat;
+//	pusat.x = windowPosition.x + windowSideLength/2;
+//	pusat.y = windowPosition.y + windowSideLength/2;
+	pusat.x = 0;
+	pusat.y = 0;
+
+	float ratio = (float) GLOBAL_WINDOW_X/ (float) windowSideLength;
+
+	titik result = scaleDot(pusat, p, ratio);
+}
