@@ -363,12 +363,12 @@ void drawWindow(titik windowPosition){
     titik* posWindow = (titik*) malloc(4*sizeof(titik));
     posWindow[0].x = windowPosition.x;
     posWindow[0].y = windowPosition.y;
-    posWindow[1].x = windowPosition.x+299;
+    posWindow[1].x = windowPosition.x+windowSideLength;
     posWindow[1].y = windowPosition.y;
-    posWindow[2].x = windowPosition.x+299;
-    posWindow[2].y = windowPosition.y+199;
+    posWindow[2].x = windowPosition.x+windowSideLength;
+    posWindow[2].y = windowPosition.y+windowSideLength;
     posWindow[3].x = windowPosition.x;
-    posWindow[3].y = windowPosition.y+199;
+    posWindow[3].y = windowPosition.y+windowSideLength;
 
     bufferDrawPlane(posWindow,cWhite,4);
 }
