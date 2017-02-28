@@ -1,8 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "glob_var_type.h"
+
+
 typedef struct{
 	int n; //banyak titik
-	titik* points; //titik pada bidang
+	titik* point; //titik pada bidang
 } plane; //maksudnya bidang
 
-void init();
+void init(plane* bidang);
 
 plane* readFile(char* path);
