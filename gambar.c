@@ -385,7 +385,19 @@ void drawBuildings(plane* bidang, int size, warna c){
 }
 
 void drawTrees(plane* bidang, int size, warna c){
+    titik citra[4];
+    int s = 5;
+    for(int i=0; i<size; i++)
+    {
+        //asumsi per bidang satu titik
+        titik origin = bidang[i].point[0];
+        citra[0].x = origin.x+s;citra[0].y = origin.y+s;
+        citra[1].x = origin.x-s;citra[1].y = origin.y-s;
+        citra[2].x = origin.x-s;citra[2].y = origin.y+s;
+        citra[3].x = origin.x+s;citra[3].y = origin.y-s;
 
+        bufferDrawPlane(citra, c, 4);
+    }
 }
 
 
