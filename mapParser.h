@@ -13,6 +13,6 @@ typedef struct{
 
 void init(plane* bidang);
 
-plane* readFile(char* path);
+plane* readFile(char* path, int* total);
 
 #endif
