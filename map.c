@@ -27,7 +27,7 @@ plane building, road, tree;
 titik pl0 = {0,0};
 titik pl1 = {999,699};
 titik pw0 = {0,0};
-titik pw1 = {299,199};
+titik pw1 = {299,299};
 
 pthread_t thread0; 		//thread input capture
 int fd; 				//something-something keylogger
@@ -71,6 +71,7 @@ int main(){
 	//read file with parser
 	int ntree;
 	plane* tree = readFile("tree.txt", &ntree);
+	ntree = tree[0].n;
 
 //**setup-pohon******************************************************************************
 
@@ -260,7 +261,6 @@ void updatePosisi(){
 }
 
 void postUpdate(){
-
 	loadBuffer();
 	loadBuffer_window();
 }
