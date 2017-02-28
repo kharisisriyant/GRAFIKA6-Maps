@@ -6,6 +6,7 @@
 // tipe data titik, warna
 #include "glob_var_type.h"
 #include "gambarwindow.h"
+#include "mapParser.h"
 
 unsigned char buffer_r[GLOBAL_LAYAR_X][GLOBAL_LAYAR_Y];
 unsigned char buffer_g[GLOBAL_LAYAR_X][GLOBAL_LAYAR_Y];
@@ -59,5 +60,12 @@ void drawTank(int xof, int yof);
 titik getMidPoint(titik *citra, int sisi);
 
 void drawWindow(titik windowPosition);
+
+//menggambar bidang-bidang yang banyak
+void drawBuildings(plane* bidang, int size, warna c);
+
+void drawTrees(plane* bidang, int size, warna c);
+
+void drawRoads(plane* bidang, int size, warna c);
 
 #endif //GAMBAR_H

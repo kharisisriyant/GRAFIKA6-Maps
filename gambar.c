@@ -68,7 +68,7 @@ titik getMidPoint(titik *citra, int sisi) {
 
 //mengganti nilai seluruh pixel buffer menjadi background color untuk
 void refreshBuffer(titik p0, titik p1){
-    warna warna_default = {25, 25, 255, 255};
+    warna warna_default = {0, 0, 0, 255};
 
     //
     //       *1
@@ -371,4 +371,24 @@ void drawWindow(titik windowPosition){
     posWindow[3].y = windowPosition.y+199;
 
     bufferDrawPlane(posWindow,cWhite,4);
+}
+
+//menggambar bidang-bidang yang banyak
+void drawBuildings(plane* bidang, int size, warna c){
+    for(int i=0; i<size; i++){
+        int j;
+        for( j=0; j<bidang[i].n-1; j++){
+            bufferDrawLine(bidang[i].point[j], bidang[i].point[j+1], c);
+        }
+        bufferDrawLine(bidang[i].point[j], bidang[i].point[0], c);
+    }
+}
+
+void drawTrees(plane* bidang, int size, warna c){
+
+}
+
+
+void drawRoads(plane* bidang, int size, warna c){
+
 }

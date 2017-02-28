@@ -5,7 +5,7 @@
 #define GLOBAL_LAYAR_Y 700
 
 #define GLOBAL_WINDOW_X 300
-#define GLOBAL_WINDOW_Y 200
+#define GLOBAL_WINDOW_Y 300
 
 typedef struct{
     int r,g,b,a;

@@ -1,6 +1,7 @@
 #include "tembakan.h"
 #include "tabrakan.h"
 #include "gambarwindow.h"
+#include "mapParser.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -15,36 +16,26 @@ void *preUpdate();		//(1)cek inputuser
 void updatePosisi();	//(1)ubah posisi. (2)spawnObjek, (3)drawBuffer
 void postUpdate();	 	//(1)cek kolisi, (2)loadbuffer ke layar
 
-objekTabrak pesawat[10];
-objekTabrak peluru[10];
-objekTabrak objek[10];
-objekTabrak propeller[10];
-int pesawatterakhir = 0;
-int peluruterakhir = 0;
-int objekterakhir = 0;
+titik windowPosition = {350,50};
+plane building, road, tree;
+
 titik pl0 = {0,0};
 titik pl1 = {999,699};
 titik pw0 = {0,0};
 titik pw1 = {299,199};
+
 pthread_t thread0; 		//thread input capture
 int fd; 				//something-something keylogger
 struct input_event ev;	//something-something keylogger
 ssize_t n;
 int user_input = -99;
 int keypress = 0;
-titik p0 = {0,150};
-titik p1 = {520,650};
-titik p2 = {300,650};
-titik p3 = {500,650};
-titik p8 = {600, 650};
-titik p9 = {0,0};
-titik p10 = {760,2};
-titik p11 = {0,600};
-titik p12 = {900,600};
-
-titik windowPosition = {350,50};
 
 int main(){
+	int isBuildingDisplayed = 1;
+	int isTreeDisplayed = 1;
+	int isRoadDisplayed = 1;
+
 //**setup-pendengar-keyboard********************************************************************
 	// Input keyboard device file
     //const char *dev = "/dev/input/by-id/usb-_USB_Keyboard-event-kbd";
@@ -61,30 +52,39 @@ int main(){
 
 //**setup-objek-game****************************************************************************
 	init_fb();
+
+
+//**setup-building******************************************************************************
+
+	//read file with parser
+	plane* building = readFile("building.txt");
+	int nbuilding = 10;
+
+//**setup-jalan******************************************************************************
+
+	//read file with parser
+//	plane* pohon = readFile("tree.txt");
+
+//**setup-pohon******************************************************************************
+
+	//read file with parser
+
 	warna c = {255,255,255,255};
 	warna c0 = {255,255,255,255};
 	c0.r += 30;
     c0.g += 30;
     c0.b += 30;
-
+/*
 	titik pt[3];
 	pt[0] = pl0;
 	pt[1] = p0;
-	pt[2] = p1;
-
-	for(int in=0; in<10; in++)
-	{
-		peluru[in].status = -1;
-		pesawat[in].status = -1;
-		objek[in].status = -1;
-	}
-
-	spawnObjek('a',p0);
+	pt[2] = p1;*/
 
 	printf("\n");
 	refreshBuffer(pl0,pl1);
-	gambarObjek();
-	gambarTembakan();
+	drawBuildings(building,nbuilding,c);
+//	drawTrees(pohon,npohon,c);
+
 	loadBuffer();
 
 	refreshBuffer_window(pw0,pw1);
@@ -95,7 +95,7 @@ int main(){
 	while(1)
 	{
 		//preUpdate();
-		updatePosisi();
+//		updatePosisi();
 		postUpdate();
 		usleep(17);
 	}
@@ -107,8 +107,6 @@ int main(){
     fprintf(stderr, "%s.\n", strerror(errno));
 	return 0;
 }
-
-
 
 void *preUpdate(){
 	while(1){
@@ -122,11 +120,12 @@ void *preUpdate(){
 	    // if keystroke is stored on keyboard device reference file
 	    if (ev.type == EV_KEY && ev.value >= 0 && ev.value <= 2){
 	        if(ev.value == 1){ // when it pressed, 0 is released
+	        	printf("----%d----",ev.code);
 	            switch(ev.code){
 	                case 57:
 	                    // Space trigger
 	                    user_input = 0;
-	                    printf("%d\n", peluruterakhir);
+//	                    printf("%d\n", peluruterakhir);
 	                    break;
 
 	                case 105:
@@ -206,36 +205,16 @@ void updatePosisi(){
 		puterTembakan(user_input);
 		if(keypress == 0) user_input = -99;
 	}
-
-	//CEK FLAG
-	if(prime.isTembak){
-		spawnObjek('b',p1);
-		sudahTembak();
-	}*/
+*/
 
 	refreshBuffer(pl0,pl1);
 	refreshBuffer_window(pw0,pw1);
-//	gambarObjek();
-//	gambarTembakan();
-//	jalanObjek();
+
+
 	drawWindow(windowPosition);
 }
 
 void postUpdate(){
-/*	cekTabrakanObjek(100);
-
-	for(int i=0; i<1; i++){
-		if(pesawat[i].status == 1){
-			gambarHancur(pesawat[i].posisi);
-			pesawat[i].status = -1;
-		}
-	}
-
-	for(int i=0; i<99; i++){
-		if(peluru[i].status == 1){
-			peluru[i].status = -1;
-		}
-	}*/
 
 	loadBuffer();
 	loadBuffer_window();
