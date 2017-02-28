@@ -2,6 +2,7 @@
 #include "tabrakan.h"
 #include "gambarwindow.h"
 #include "mapParser.h"
+#include "skala.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -61,11 +62,17 @@ int main(){
 	plane* building = readFile("building.txt", &nbuilding);
 
 //**setup-jalan******************************************************************************
+	int njalan;
+	line* roads = readFileRoad("jalan.txt", &njalan);
 
 	//read file with parser
 	int npohon;
 	plane* pohon = readFile("tree.txt", &npohon);
 	npohon = pohon[0].n;
+	titik p0 = {0, 0};
+	for (int xx = 0; xx < 101; xx++) {
+		pohon[0].point[xx] = scaleDot(p0, pohon[0].point[xx], 1.37);
+	}
 
 //**setup-pohon******************************************************************************
 
@@ -73,7 +80,9 @@ int main(){
 
 	warna c = {255,255,255,255};
 	warna c0 = {255,255,255,255};
-	c0.r += 30;
+	warna red = {255, 1, 1, 255};
+	warna green = {1, 255, 1, 255};
+	c0.r += 30;;
     c0.g += 30;
     c0.b += 30;
 /*
@@ -85,7 +94,8 @@ int main(){
 	printf("\n");
 	refreshBuffer(pl0,pl1);
 	drawBuildings(building,nbuilding,c);
-	drawTrees(pohon,npohon,c);
+	drawTrees(pohon,npohon,green);
+	drawRoads(roads, njalan, red);
 
 	loadBuffer();
 
